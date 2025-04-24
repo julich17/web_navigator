@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Скалолазание: Опрос и информация</title>
+    <style>
+        /* Основные стили */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1ba4ff, #2575fc);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .button-container button {
+            padding: 15px 30px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button-container button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .button-container button:active {
+            transform: scale(0.95);
+        }
+
+        .button-container button.motivation {
+            background-color: #ff5c33;
+            font-size: 1.5rem;
+            padding: 20px 40px;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            display: none;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: #333;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+            transition: opacity 0.5s ease;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: #333;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .info {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            color: #333;
+            max-width: 500px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .info h2 {
+            font-size: 2rem;
+            color: #2575fc;
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .info ul {
+            text-align: left;
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .info ul li {
+            margin-bottom: 10px;
+        }
+
+        .result h2 {
+            font-size: 2rem;
+            color: #2575fc;
+            margin-bottom: 20px;
+        }
+
+        .result p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .result p strong {
+            color: #6a11cb;
+            font-weight: bold;
+        }
+
+        .result p .icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .result p .icon.trainer {
+            background: url('https://img.icons8.com/color/48/000000/trainer.png') no-repeat center center;
+            background-size: contain;
+        }
+
+        .result p .icon.location {
+            background: url('https://img.icons8.com/color/48/000000/location.png') no-repeat center center;
+            background-size: contain;
+        }
+
+        .result p .icon.days {
+            background: url('https://img.icons8.com/color/48/000000/calendar.png') no-repeat center center;
+            background-size: contain;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .radio-group {
+            margin: 10px 0;
+        }
+
+        .radio-group label {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .radio-group label:hover {
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .radio-group input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        /* Анимация для перехода между вопросами */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .question.visible {
+            animation: fadeIn 0.5s ease;
+        }
+
+        .info img {
+            max-width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Скалолазание: Опрос и информация</h1>
+
+    <!-- Кнопки для выбора опроса или информации -->
+    <div class="button-container">
+        <button class="motivation" id="motivationButton">Эстет Мотивация</button>
+        <button id="surveyButton">Опрос</button>
+        <button id="infoButton">Информация о скалодроме</button>
+    </div>
+
+    <!-- Блок с опросом -->
+    <div id="survey" style="display: none;">
+        <!-- Вопрос 1: Возраст -->
+        <div class="question visible" id="question1">
+            <p>1. Сколько вам лет?</p>
+            <div class="radio-group">
+                <label><input type="radio" name="age" value="under16"> Младше 16</label>
+                <label><input type="radio" name="age" value="over16"> Старше 16</label>
+            </div>
+            <button id="nextButton1">Далее</button>
+        </div>
+
+        <!-- Вопрос 2: С тренером или без -->
+        <div class="question" id="question2">
+            <p>2. Как хотите заниматься: с тренером или без?</p>
+            <div class="radio-group">
+                <label><input type="radio" name="trainer" value="with"> С тренером</label>
+                <label><input type="radio" name="trainer" value="without"> Без тренера</label>
+            </div>
+            <button id="nextButton2">Далее</button>
+        </div>
+
+        <!-- Вопрос 3: Индивидуально или в группе -->
+        <div class="question" id="question3">
+            <p>3. Как хотите заниматься: индивидуально или в группе?</p>
+            <div class="radio-group">
+                <label><input type="radio" name="group" value="individual"> Индивидуально</label>
+                <label><input type="radio" name="group" value="group"> В группе</label>
+            </div>
+            <button id="nextButton3">Далее</button>
+        </div>
+
+        <!-- Вопрос 4: Выбор скалодрома (если с тренером) -->
+        <div class="question" id="question4">
+            <p>4. На каком скалодроме хотите заниматься?</p>
+            <div class="radio-group">
+                <label><input type="radio" name="location" value="bukhareskaya"> Бухарестская</label>
+                <label><input type="radio" name="location" value="petrogradskaya"> Петроградская</label>
+            </div>
+            <button id="nextButton4">Далее</button>
+        </div>
+
+        <!-- Вопрос 5: Выбор дней (если с тренером) -->
+        <div class="question" id="question5">
+            <p>5. В какие дни хотите заниматься?</p>
+            <div class="radio-group">
+                <label><input type="radio" name="days" value="mon_wed_fri"> Пн, Ср, Пт</label>
+                <label><input type="radio" name="days" value="tue_thu"> Вт, Чт</label>
+                <label><input type="radio" name="days" value="sat_sun"> Сб, Вс</label>
+            </div>
+            <button id="nextButton5">Завершить</button>
+        </div>
+
+        <!-- Блок с результатом -->
+        <div class="result" id="result">
+            <h2>Ваш результат:</h2>
+            <p id="resultText"></p>
+        </div>
+    </div>
+
+    <!-- Блок с информацией о скалодроме -->
+    <div class="info" id="info" style="display: none;">
+        <h2>Информация о скалодроме</h2>
+        <p>Есть два скалодрома:</p>
+        <ul>
+            <li>
+                <strong>Бухарестская:</strong> ул. Фучика 10 к. 2 л. Е, м. Бухарестская, Санкт-Петербург
+                <img src="https://static.tildacdn.com/tild6630-6634-4166-b639-323165643766/___1.jpg" alt="Бухарестская">
+                <p><strong>Контакты:</strong> severnayastena@gmail.com, +7 (812) 779-15-15</p>
+            </li>
+            <li>
+                <strong>Петроградская:</strong> ул. Газовая 10 лит. З, м. Петроградская, м. Чкаловская, Санкт-Петербург
+                <img src="https://static.tildacdn.com/tild3033-6332-4364-a132-393365306162/photo.png" alt="Петроградская">
+                <p><strong>Контакты:</strong> severnayastena@gmail.com, +7 (812) 501-93-15</p>
+            </li>
+        </ul>
+        <p><strong>Что нужно для занятий:</strong></p>
+        <ul>
+            <li>Удобная спортивная одежда.</li>
+            <li>Скальные туфли (можно арендовать на месте).</li>
+            <li>Мешочек с магнезией (также доступен на месте).</li>
+        </ul>
+        <p><strong>Цены:</strong></p>
+        <ul>
+            <li><strong>САМОСТОЯТЕЛЬНЫЙ ВХОД:</strong></li>
+            <ul>
+                <li>Будни: 8:00 – 10:00 — 550 ₽ | 450 ₽</li>
+                <li>Будни: 10:00 – 16:00 — 750 ₽ | 650 ₽</li>
+                <li>Будни: 16:00 – 23:30 — 1100 ₽ | 1000 ₽</li>
+                <li>Выходные: 8:00 – 16:00 — 1100 ₽ | 1000 ₽</li>
+                <li>Выходные: 16:00 – 23:30 — 750 ₽ | 650 ₽</li>
+                <li>Вход в оба зала — 1200 ₽ | 1100 ₽ (в один день)</li>
+            </ul>
+            <li><strong>АБОНЕМЕНТЫ:</strong></li>
+            <ul>
+                <li>10 посещений — 9900 ₽ | 9000 ₽</li>
+                <li>10 дневных — 6750 ₽ | 5850 ₽ (до 16:00 по будням/после 16:00 по выходным)</li>
+                <li>20 посещений — 18700 ₽ | 17000 ₽</li>
+                <li>30 посещений — 24300 ₽ | 21900 ₽</li>
+                <li>1 месяц — 8800 ₽ | 8000 ₽</li>
+                <li>3 месяца — 23100 ₽ | 21000 ₽</li>
+                <li>6 месяцев — 38500 ₽ | 35000 ₽</li>
+                <li>1 год — 63180 ₽ | 58000 ₽</li>
+            </ul>
+            <li><strong>ВХОД И ЗАНЯТИЕ С ТРЕНЕРОМ:</strong></li>
+            <ul>
+                <li>Вводное занятие — 1800 ₽</li>
+                <li>Легкий старт 5 занятий — 7300 ₽</li>
+            </ul>
+            <li><strong>ВЗРОСЛЫЕ ГРУППОВЫЕ ТРЕНИРОВКИ:</strong></li>
+            <ul>
+                <li>Утренняя тренировка — 1300 ₽</li>
+                <li>1 тренировка — 1800 ₽ (без оплаты входа — 800 ₽)</li>
+                <li>10 тренировок — 16200 ₽ | 14600 ₽ (без оплаты входа — 6300 ₽ | 5600 ₽)</li>
+                <li>20 тренировок — 30600 ₽ | 27500 ₽</li>
+                <li>30 тренировок — 39600 ₽ | 35400 ₽</li>
+            </ul>
+            <li><strong>ИНДИВИДУАЛЬНЫЕ ТРЕНИРОВКИ (1,5 часа):</strong></li>
+            <ul>
+                <li>Тренировка для одного — 3800 ₽ (с абонементом на вход — 2700 ₽)</li>
+                <li>Тренировка для двоих — 5800 ₽</li>
+                <li>Тренировка для троих — 7800 ₽</li>
+                <li>Тренировка для четверых — 9800 ₽</li>
+                <li>5 индивидуальных на одного — 17900 ₽ | 16100 ₽ (с абонементом на вход — 12900 ₽ | 11600 ₽)</li>
+                <li>10 индивидуальных на одного — 34200 ₽ | 30780 ₽ (с абонементом на вход — 24300 ₽ | 21780 ₽)</li>
+            </ul>
+            <li><strong>КОРПОРАТИВНЫЕ ТРЕНИРОВКИ:</strong></li>
+            <ul>
+                <li>Корпоративное занятие — 2200 ₽/чел (с абонементом на вход — 1200 ₽)</li>
+            </ul>
+            <li><strong>ДЕТСКАЯ И ПОДРОСТКОВАЯ СЕКЦИИ:</strong></li>
+            <ul>
+                <li>Пробное занятие — 1800 ₽ (1,5 часа)</li>
+                <li>4 занятия — 6200 ₽ (без аренды скальников и магнезии — 5400 ₽)</li>
+                <li>8 занятий — 10800 ₽ (без аренды скальников и магнезии — 9400 ₽)</li>
+                <li>12 занятий — 13500 ₽ (без аренды скальников и магнезии — 11700 ₽)</li>
+                <li>Разовое занятие в секции — 1800 ₽ (без аренды скальников и магнезии)</li>
+            </ul>
+            <li><strong>ПРОКАТ В ЗАЛЕ:</strong></li>
+            <ul>
+                <li>Скальные туфли — 500 ₽</li>
+                <li>Мешочек с магнезией — 150 ₽</li>
+                <li>Обвязка — 150 ₽</li>
+                <li>Гри-три и карабин — 200 ₽</li>
+                <li>Веревка — 300 ₽</li>
+                <li>Все снаряжение разом — 800 ₽</li>
+                <li>Полотенце — 100 ₽</li>
+                <li>Очки страховщика — 100 ₽</li>
+                <li>Ohm — 100 ₽</li>
+            </ul>
+            <li><strong>КАМЕРА ХРАНЕНИЯ:</strong></li>
+            <ul>
+                <li>1 месяц — 800 ₽</li>
+                <li>3 месяца — 2100 ₽</li>
+                <li>6 месяцев — 3600 ₽</li>
+            </ul>
+            <li><strong>ПРОКАТ ДЛЯ ВЫЕЗДА НА СКАЛЫ:</strong></li>
+            <ul>
+                <li>Скальные туфли — 450 ₽</li>
+                <li>Мешочек с магнезией — 150 ₽</li>
+                <li>Обвязка — 150 ₽</li>
+                <li>Гри-три и карабин — 200 ₽</li>
+                <li>Веревка — 600 ₽</li>
+                <li>Сумка для веревки — 100 ₽</li>
+                <li>Комплект оттяжек (10 штук) — 500 ₽</li>
+                <li>Ohm — 200 ₽</li>
+                <li>Крешлад — 1200 ₽</li>
+                <li>Каска — 100 ₽</li>
+            </ul>
+        </ul>
+    </div>
+
+    <!-- Блок с информацией о скалолазании -->
+    <div class="info" id="motivationInfo" style="display: none;">
+        <h2>Скалолазание: Вдохновение и мотивация</h2>
+        <p>Скалолазание — это не только физическая активность, но и способ преодоления своих страхов и достижения новых высот. Вот несколько причин, почему стоит попробовать скалолазание:</p>
+        <ul>
+            <li>Улучшение физической формы и координации.</li>
+            <li>Развитие силы и выносливости.</li>
+            <li>Возможность преодолевать свои страхи и выходить из зоны комфорта.</li>
+            <li>Общение с единомышленниками и участие в соревнованиях.</li>
+        </ul>
+        
+        <h3>Чемпионаты и известные скалолазы</h3>
+        <p>Скалолазание стало олимпийским видом спорта в 2020 году. Среди самых престижных соревнований:</p>
+        <ul>
+            <li>Чемпионат мира по скалолазанию</li>
+            <li>Кубок мира по скалолазанию</li>
+            <li>Чемпионат Европы по скалолазанию</li>
+        </ul>
+        
+        <p>Известные российские скалолазы:</p>
+        <ul>
+            <li><strong>Рустам Гельманов</strong> - многократный чемпион мира и Европы</li>
+            <li><strong>Юлия Каплина</strong> - чемпионка мира в боулдеринге</li>
+            <li><strong>Дмитрий Шарафутдинов</strong> - победитель этапов Кубка мира</li>
+        </ul>
+        
+        <p>Международные звезды скалолазания:</p>
+        <ul>
+            <li><strong>Адам Ондра</strong> (Чехия) - один из сильнейших скалолазов мира</li>
+            <li><strong>Янжа Гарнет</strong> (США) - первая женщина, прошедшая маршрут 9a+</li>
+            <li><strong>Алекс Хоннольд</strong> (США) - известен своими свободными соло-восхождениями</li>
+        </ul>
+        
+        <p>Независимо от вашего уровня подготовки, скалолазание предлагает уникальные возможности для личного роста и самосовершенствования.</p>
+    </div>
+
+    <script>
+        // Данные о тренерах
+        const trainersData = {
+            under16: {
+                bukhareskaya: {
+                    mon_wed_fri: ["Березовская Полина", "Попов Денис"],
+                    tue_thu: ["Березовская Полина", "Остапчук Павел"],
+                    sat_sun: ["Кузин Александр", "Быстрова Варвара"]
+                },
+                petrogradskaya: {
+                    mon_wed_fri: ["Березовская Полина", "Остапчук Павел"],
+                    tue_thu: ["Архандеев Даниил"],
+                    sat_sun: ["Быстрова Варвара"]
+                }
+            },
+            over16: {
+                bukhareskaya: {
+                    mon_wed_fri: ["Баряхтар Виктор", "Курочкин Илья"],
+                    tue_thu: ["Ерохин Михаил", "Карузин Михаил"],
+                    sat_sun: ["Хвалева Светлана", "Карузин Михаил"]
+                },
+                petrogradskaya: {
+                    mon_wed_fri: ["Барская Ксения", "Карузин Михаил"],
+                    tue_thu: ["Бабушкин Даниил"],
+                    sat_sun: ["Бабушкин Даниил"]
+                }
+            }
+        };
+
+        // Переменные для хранения ответов
+        let ageGroup, trainerChoice, groupChoice, selectedLocation, days;
+
+        // Функция для перехода к следующему вопросу
+        function nextQuestion(nextId) {
+            const currentQuestion = document.querySelector('.visible');
+            if (currentQuestion) {
+                currentQuestion.classList.remove('visible');
+            }
+            const nextQuestionElement = document.getElementById(nextId);
+            if (nextQuestionElement) {
+                nextQuestionElement.classList.add('visible');
+            } else {
+                console.error("Следующий вопрос не найден!");
+            }
+        }
+
+        // Функция для сброса состояния опроса
+        function resetSurvey() {
+            document.getElementById('survey').style.display = 'none';
+            document.getElementById('info').style.display = 'none';
+            document.getElementById('motivationInfo').style.display = 'none';
+            document.getElementById('result').style.display = 'none';
+
+            // Сброс всех выбранных ответов
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+
+            // Скрытие всех вопросов, кроме первого
+            document.querySelectorAll('.question').forEach(question => {
+                question.classList.remove('visible');
+            });
+            document.getElementById('question1').classList.add('visible');
+        }
+
+        // Функция для вывода результата
+        function showResult() {
+            const ageInput = document.querySelector('input[name="age"]:checked');
+            const trainerInput = document.querySelector('input[name="trainer"]:checked');
+            const groupInput = document.querySelector('input[name="group"]:checked');
+            const locationInput = document.querySelector('input[name="location"]:checked');
+            const daysInput = document.querySelector('input[name="days"]:checked');
+
+            let resultText = "";
+
+            if (ageGroup === 'under16') {
+                if (trainerChoice === 'with') {
+                    if (groupChoice === 'individual') {
+                        resultText = `
+                            <p><strong>Возраст:</strong> Младше 16</p>
+                            <p><strong>Занятия:</strong> С тренером, индивидуально</p>
+                            <p><strong>Цены:</strong></p>
+                            <ul>
+                                <li>Тренировка для одного — 3800 ₽ (с абонементом на вход — 2700 ₽)</li>
+                                <li>Тренировка для двоих — 5800 ₽</li>
+                                <li>Тренировка для троих — 7800 ₽</li>
+                                <li>Тренировка для четверых — 9800 ₽</li>
+                                <li>5 индивидуальных на одного — 17900 ₽ | 16100 ₽ (с абонементом на вход — 12900 ₽ | 11600 ₽)</li>
+                                <li>10 индивидуальных на одного — 34200 ₽ | 30780 ₽ (с абонементом на вход — 24300 ₽ | 21780 ₽)</li>
+                            </ul>
+                        `;
+                    } else {
+                        resultText = `
+                            <p><strong>Возраст:</strong> Младше 16</p>
+                            <p><strong>Занятия:</strong> С тренером, в группе</p>
+                            <p><span class="icon location"></span><strong>Скалодром:</strong> ${selectedLocation === 'bukhareskaya' ? 'Бухарестская' : 'Петроградская'}</p>
+                            <p><span class="icon days"></span><strong>Дни:</strong> ${days === 'mon_wed_fri' ? 'Пн, Ср, Пт' : days === 'tue_thu' ? 'Вт, Чт' : 'Сб, Вс'}</p>
+                            <p><span class="icon trainer"></span><strong>Доступные тренеры:</strong> ${trainersData[ageGroup][selectedLocation][days].join(', ')}</p>
+                            <p><strong>Цены:</strong></p>
+                            <ul>
+                                <li>Пробное занятие — 1800 ₽ (1,5 часа)</li>
+                                <li>4 занятия — 6200 ₽ (без аренды скальников и магнезии — 5400 ₽)</li>
+                                <li>8 занятий — 10800 ₽ (без аренды скальников и магнезии — 9400 ₽)</li>
+                                <li>12 занятий — 13500 ₽ (без аренды скальников и магнезии — 11700 ₽)</li>
+                                <li>Разовое занятие в секции — 1800 ₽ (без аренды скальников и магнезии)</li>
+                            </ul>
+                        `;
+                    }
+                } else {
+                    resultText = `
+                        <p><strong>Возраст:</strong> Младше 16</p>
+                        <p><strong>Занятия:</strong> Без тренера</p>
+                        <p><strong>Цены:</strong></p>
+                        <ul>
+                            <li>Будни: 8:00 – 10:00 — 550 ₽ | 450 ₽</li>
+                            <li>Будни: 10:00 – 16:00 — 750 ₽ | 650 ₽</li>
+                            <li>Будни: 16:00 – 23:30 — 1100 ₽ | 1000 ₽</li>
+                            <li>Выходные: 8:00 – 16:00 — 1100 ₽ | 1000 ₽</li>
+                            <li>Выходные: 16:00 – 23:30 — 750 ₽ | 650 ₽</li>
+                            <li>Вход в оба зала — 1200 ₽ | 1100 ₽ (в один день)</li>
+                        </ul>
+                        <p><strong>Примечание:</strong> Для лиц младше 16 лет требуется присутствие родителя или опекуна.</p>
+                    `;
+                }
+            } else if (ageGroup === 'over16') {
+                if (trainerChoice === 'with') {
+                    if (groupChoice === 'individual') {
+                        resultText = `
+                            <p><strong>Возраст:</strong> Старше 16</p>
+                            <p><strong>Занятия:</strong> С тренером, индивидуально</p>
+                            <p><strong>Цены:</strong></p>
+                            <ul>
+                                <li>Тренировка для одного — 3800 ₽ (с абонементом на вход — 2700 ₽)</li>
+                                <li>Тренировка для двоих — 5800 ₽</li>
+                                <li>Тренировка для троих — 7800 ₽</li>
+                                <li>Тренировка для четверых — 9800 ₽</li>
+                                <li>5 индивидуальных на одного — 17900 ₽ | 16100 ₽ (с абонементом на вход — 12900 ₽ | 11600 ₽)</li>
+                                <li>10 индивидуальных на одного — 34200 ₽ | 30780 ₽ (с абонементом на вход — 24300 ₽ | 21780 ₽)</li>
+                            </ul>
+                        `;
+                    } else {
+                        resultText = `
+                            <p><strong>Возраст:</strong> Старше 16</p>
+                            <p><strong>Занятия:</strong> С тренером, в группе</p>
+                            <p><strong>Цены:</strong></p>
+                            <ul>
+                                <li>Утренняя тренировка — 1300 ₽</li>
+                                <li>1 тренировка — 1800 ₽ (без оплаты входа — 800 ₽)</li>
+                                <li>10 тренировок — 16200 ₽ | 14600 ₽ (без оплаты входа — 6300 ₽ | 5600 ₽)</li>
+                                <li>20 тренировок — 30600 ₽ | 27500 ₽</li>
+                                <li>30 тренировок — 39600 ₽ | 35400 ₽</li>
+                            </ul>
+                        `;
+                    }
+                } else {
+                    resultText = `
+                        <p><strong>Возраст:</strong> Старше 16</p>
+                        <p><strong>Занятия:</strong> Без тренера</p>
+                        <p><strong>Цены:</strong></p>
+                        <ul>
+                            <li>Будни: 8:00 – 10:00 — 550 ₽ | 450 ₽</li>
+                            <li>Будни: 10:00 – 16:00 — 750 ₽ | 650 ₽</li>
+                            <li>Будни: 16:00 – 23:30 — 1100 ₽ | 1000 ₽</li>
+                            <li>Выходные: 8:00 – 16:00 — 1100 ₽ | 1000 ₽</li>
+                            <li>Выходные: 16:00 – 23:30 — 750 ₽ | 650 ₽</li>
+                            <li>Вход в оба зала — 1200 ₽ | 1100 ₽ (в один день)</li>
+                        </ul>
+                    `;
+                }
+            }
+
+            // Добавляем контактную информацию
+            resultText += `
+                <p><strong>Контакты:</strong></p>
+                <ul>
+                    <li>Email: severnayastena@gmail.com</li>
+                    <li>Бухарестская: +7 (812) 779-15-15</li>
+                    <li>Петроградская: +7 (812) 501-93-15</li>
+                </ul>
+            `;
+
+            // Выводим результат в элемент с id "resultText"
+            document.getElementById('resultText').innerHTML = resultText;
+
+            // Показываем блок с результатом
+            document.getElementById('result').style.display = 'block';
+
+            // Скрываем текущий вопрос
+            const currentQuestion = document.querySelector('.visible');
+            if (currentQuestion) {
+                currentQuestion.classList.remove('visible');
+            }
+        }
+
+        // Обработчики для кнопок опроса
+        document.getElementById('nextButton1').addEventListener('click', function () {
+            const ageInput = document.querySelector('input[name="age"]:checked');
+            if (ageInput) {
+                ageGroup = ageInput.value;
+                nextQuestion('question2');
+            } else {
+                alert("Пожалуйста, выберите возраст!");
+            }
+        });
+
+        document.getElementById('nextButton2').addEventListener('click', function () {
+            const trainerInput = document.querySelector('input[name="trainer"]:checked');
+            if (trainerInput) {
+                trainerChoice = trainerInput.value;
+                if (trainerChoice === 'with') {
+                    nextQuestion('question3');
+                } else {
+                    showResult();
+                }
+            } else {
+                alert("Пожалуйста, выберите, хотите ли вы заниматься с тренером или без!");
+            }
+        });
+
+        document.getElementById('nextButton3').addEventListener('click', function () {
+            const groupInput = document.querySelector('input[name="group"]:checked');
+            if (groupInput) {
+                groupChoice = groupInput.value;
+                if (trainerChoice === 'with') {
+                    nextQuestion('question4');
+                } else {
+                    showResult();
+                }
+            } else {
+                alert("Пожалуйста, выберите, хотите ли вы заниматься индивидуально или в группе!");
+            }
+        });
+
+        document.getElementById('nextButton4').addEventListener('click', function () {
+            const locationInput = document.querySelector('input[name="location"]:checked');
+            if (locationInput) {
+                selectedLocation = locationInput.value;
+                nextQuestion('question5');
+            } else {
+                alert("Пожалуйста, выберите скалодром!");
+            }
+        });
+
+        document.getElementById('nextButton5').addEventListener('click', function () {
+            const daysInput = document.querySelector('input[name="days"]:checked');
+            if (daysInput) {
+                days = daysInput.value;
+                showResult();
+            } else {
+                alert("Пожалуйста, выберите дни для занятий!");
+            }
+        });
+
+        // Обработчики для кнопок выбора опроса или информации
+        document.getElementById('surveyButton').addEventListener('click', function () {
+            resetSurvey();
+            document.getElementById('survey').style.display = 'block';
+            document.getElementById('question1').classList.add('visible');
+        });
+
+        document.getElementById('infoButton').addEventListener('click', function () {
+            resetSurvey();
+            document.getElementById('info').style.display = 'block';
+        });
+
+        // Обработчик для кнопки "Эстет Мотивация"
+        document.getElementById('motivationButton').addEventListener('click', function () {
+            resetSurvey();
+            document.getElementById('motivationInfo').style.display = 'block';
+        });
+    </script>
+</body>
+
+</html>
