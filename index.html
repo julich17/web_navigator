@@ -519,14 +519,24 @@
                                 <li>5 индивидуальных на одного — 17900 ₽ | 16100 ₽ (с абонементом на вход — 12900 ₽ | 11600 ₽)</li>
                                 <li>10 индивидуальных на одного — 34200 ₽ | 30780 ₽ (с абонементом на вход — 24300 ₽ | 21780 ₽)</li>
                             </ul>
+                            <p><strong>Для индивидуальных тренеровок с тренером - позвоните/напишите на скалодром и договоритесь с тренером о тренировке</p>
                         `;
                     } else {
+                        // Используем сохраненные значения location и days
+                        const locationName = selectedLocation === 'bukhareskaya' ? 'Бухарестская' : 'Петроградская';
+                        let daysName = '';
+                        if (days === 'mon_wed_fri') daysName = 'Пн, Ср, Пт';
+                        else if (days === 'tue_thu') daysName = 'Вт, Чт';
+                        else if (days === 'sat_sun') daysName = 'Сб, Вс';
+                        
+                        const trainers = trainersData[ageGroup][selectedLocation][days].join(', ');
+                        
                         resultText = `
                             <p><strong>Возраст:</strong> Младше 16</p>
                             <p><strong>Занятия:</strong> С тренером, в группе</p>
-                            <p><span class="icon location"></span><strong>Скалодром:</strong> ${selectedLocation === 'bukhareskaya' ? 'Бухарестская' : 'Петроградская'}</p>
-                            <p><span class="icon days"></span><strong>Дни:</strong> ${days === 'mon_wed_fri' ? 'Пн, Ср, Пт' : days === 'tue_thu' ? 'Вт, Чт' : 'Сб, Вс'}</p>
-                            <p><span class="icon trainer"></span><strong>Доступные тренеры:</strong> ${trainersData[ageGroup][selectedLocation][days].join(', ')}</p>
+                            <p><strong>Скалодром:</strong> ${locationName}</p>
+                            <p><strong>Дни:</strong> ${daysName}</p>
+                            <p><strong>Доступные тренеры:</strong> ${trainers}</p>
                             <p><strong>Цены:</strong></p>
                             <ul>
                                 <li>Пробное занятие — 1800 ₽ (1,5 часа)</li>
@@ -568,20 +578,48 @@
                                 <li>5 индивидуальных на одного — 17900 ₽ | 16100 ₽ (с абонементом на вход — 12900 ₽ | 11600 ₽)</li>
                                 <li>10 индивидуальных на одного — 34200 ₽ | 30780 ₽ (с абонементом на вход — 24300 ₽ | 21780 ₽)</li>
                             </ul>
+                            <p><strong>Для индивидуальных тренеровок с тренером - позвоните/напишите на скалодром и договоритесь с тренером о тренировке</p>
                         `;
                     } else {
-                        resultText = `
-                            <p><strong>Возраст:</strong> Старше 16</p>
-                            <p><strong>Занятия:</strong> С тренером, в группе</p>
-                            <p><strong>Цены:</strong></p>
-                            <ul>
-                                <li>Утренняя тренировка — 1300 ₽</li>
-                                <li>1 тренировка — 1800 ₽ (без оплаты входа — 800 ₽)</li>
-                                <li>10 тренировок — 16200 ₽ | 14600 ₽ (без оплаты входа — 6300 ₽ | 5600 ₽)</li>
-                                <li>20 тренировок — 30600 ₽ | 27500 ₽</li>
-                                <li>30 тренировок — 39600 ₽ | 35400 ₽</li>
-                            </ul>
-                        `;
+                        // Для взрослых групповых занятий также покажем информацию о скалодроме и днях
+                        if (selectedLocation && days) {
+                            const locationName = selectedLocation === 'bukhareskaya' ? 'Бухарестская' : 'Петроградская';
+                            let daysName = '';
+                            if (days === 'mon_wed_fri') daysName = 'Пн, Ср, Пт';
+                            else if (days === 'tue_thu') daysName = 'Вт, Чт';
+                            else if (days === 'sat_sun') daysName = 'Сб, Вс';
+                            
+                            const trainers = trainersData[ageGroup][selectedLocation][days].join(', ');
+                            
+                            resultText = `
+                                <p><strong>Возраст:</strong> Старше 16</p>
+                                <p><strong>Занятия:</strong> С тренером, в группе</p>
+                                <p><strong>Скалодром:</strong> ${locationName}</p>
+                                <p><strong>Дни:</strong> ${daysName}</p>
+                                <p><strong>Доступные тренеры:</strong> ${trainers}</p>
+                                <p><strong>Цены:</strong></p>
+                                <ul>
+                                    <li>Утренняя тренировка — 1300 ₽</li>
+                                    <li>1 тренировка — 1800 ₽ (без оплаты входа — 800 ₽)</li>
+                                    <li>10 тренировок — 16200 ₽ | 14600 ₽ (без оплаты входа — 6300 ₽ | 5600 ₽)</li>
+                                    <li>20 тренировок — 30600 ₽ | 27500 ₽</li>
+                                    <li>30 тренировок — 39600 ₽ | 35400 ₽</li>
+                                </ul>
+                            `;
+                        } else {
+                            resultText = `
+                                <p><strong>Возраст:</strong> Старше 16</p>
+                                <p><strong>Занятия:</strong> С тренером, в группе</p>
+                                <p><strong>Цены:</strong></p>
+                                <ul>
+                                    <li>Утренняя тренировка — 1300 ₽</li>
+                                    <li>1 тренировка — 1800 ₽ (без оплаты входа — 800 ₽)</li>
+                                    <li>10 тренировок — 16200 ₽ | 14600 ₽ (без оплаты входа — 6300 ₽ | 5600 ₽)</li>
+                                    <li>20 тренировок — 30600 ₽ | 27500 ₽</li>
+                                    <li>30 тренировок — 39600 ₽ | 35400 ₽</li>
+                                </ul>
+                            `;
+                        }
                     }
                 } else {
                     resultText = `
