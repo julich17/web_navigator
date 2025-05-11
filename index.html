@@ -4,12 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Скалолазание: Мотивация, опрос и информация</title>
+    <title>Скалолазание: Мотивация, информармация про скалодром и опрос</title>
     <style>
         /* Основные стили */
         body {
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #56bbff, #5daeff);
+            background: url('https://ltdfoto.ru/images/2025/05/11/AVV_6895.jpg') no-repeat center center fixed;
+            background-size: cover;
             color: #fff;
             text-align: center;
             padding: 20px;
@@ -152,21 +153,6 @@
             vertical-align: middle;
         }
 
-        .result p .icon.trainer {
-            background: url('https://img.icons8.com/color/48/000000/trainer.png') no-repeat center center;
-            background-size: contain;
-        }
-
-        .result p .icon.location {
-            background: url('https://img.icons8.com/color/48/000000/location.png') no-repeat center center;
-            background-size: contain;
-        }
-
-        .result p .icon.days {
-            background: url('https://img.icons8.com/color/48/000000/calendar.png') no-repeat center center;
-            background-size: contain;
-        }
-
         button {
             padding: 10px 20px;
             background-color: #007BFF;
@@ -229,18 +215,90 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
+        
+        .original-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px 0;
+            text-align: center;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        .original-block img {
+            width: 100%;
+            max-width: 800px;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); 
+            transition: transform 0.3s ease;
+        }
+
+        .original-block img:hover {
+            transform: scale(1.02);
+        }
+
+        .original-block p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+            background: rgba(0, 0, 0, 0); 
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        /* Анимация */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .original-block img {
+                height: 300px;
+            }
+            
+            .original-block p {
+                padding: 15px;
+                font-size: 1.1rem;
+            }
+        }
+
+        .story-ending {
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: rgba(86, 187, 255, 0.1);
+            border-radius: 15px;
+            border-left: 5px solid #259ae8;
+        }
+
+        .story-ending p:last-child {
+            font-weight: bold;
+            color: #259ae8;
+            margin-top: 20px;
+            font-size: 1.3rem;
+        }
+
     </style>
 </head>
 
 <body>
 
-    <h1>Скалолазание: Мотивация, опрос и информация</h1>
-
+    <h1>Скалолазание:</h1>
+    <h2>Мотивация, информация про скалодом и опрос</h2>
     <!-- Кнопки для выбора опроса или информации -->
     <div class="button-container">
         <button class="motivation" id="motivationButton">Мотивация</button>
+        <button id="infoButton">Информация про скалодром</button>
         <button id="surveyButton">Опрос</button>
-        <button id="infoButton">Информация о скалодроме</button>
     </div>
 
     <!-- Блок с опросом -->
@@ -305,7 +363,7 @@
 
     <!-- Блок с информацией о скалодроме -->
     <div class="info" id="info" style="display: none;">
-        <h2>Информация о скалодроме</h2>
+        <h2>Информация про скалодром</h2>
         <p>Есть два скалодрома:</p>
         <ul>
             <li>
@@ -324,6 +382,9 @@
             <li>Удобная спортивная одежда.</li>
             <li>Скальные туфли (можно арендовать на месте).</li>
             <li>Мешочек с магнезией (также доступен на месте).</li>
+            <li>Обвязка (для трудности, также доступен на месте).</li>
+            <li>Веревка (для трудности, также доступен на месте).</li>
+            <li>Страховочное устройство (для трудности, также доступен на месте).</li>
         </ul>
         <p><strong>Цены:</strong></p>
         <ul>
@@ -417,18 +478,40 @@
 
     <!-- Блок с информацией о скалолазании -->
     <div class="info" id="motivationInfo" style="display: none;">
-        <h2>Скалолазание: Вдохновение и мотивация</h2>
-        <p>Скалолазание — это не только физическая активность, но и способ преодоления своих страхов и достижения новых высот. Вот несколько причин, почему стоит попробовать скалолазание:</p>
-        <ul>
-            <li>Улучшение физической формы и координации.</li>
-            <li>Развитие силы и выносливости.</li>
-            <li>Возможность преодолевать свои страхи и выходить из зоны комфорта.</li>
-            <li>Общение с единомышленниками и участие в соревнованиях.</li>
-        </ul>
+        <h2>Моя история в скалолазании</h2>
         
-        <p>Я начала заниматься совершенно случайно скалолазанием, но теперь я не представляю свою жизнь без этого вида спорта, ведь здесь я познакомилась со множеством хороших людей и получила отличные навыки в скалолазание</p>
+        <div class="original-block">
+            <img src="https://ltdfoto.ru/images/2025/05/12/NACALO.jpg" alt="Мое начало">
+            <p>Я пришла в скалолазание совершенно случайно, но это стало любовью с первого касания стены. Помню, как дрожали руки и ноги на первой трассе, но какое же это было счастье - добраться до финиша!</p>
+        </div>
         
-        <p>Независимо от вашего уровня подготовки, скалолазание предлагает уникальные возможности для личного роста и самосовершенствования.</p>
+        <div class="original-block">
+            <img src="https://ltdfoto.ru/images/2025/05/12/FINIS.jpg" alt="Самосовершенствование">
+            <div class="motivation-text">
+                <h3>Мой путь к себе</h3>
+                <p>Сначала я даже не могла подтянуться ни разу, но через месяц регулярных тренировок уже уверенно брала втрой уровень. Каждое маленькое достижение мотивировало идти дальше. Сейчас, оглядываясь назад, я вижу, как сильно изменилось не только мое тело, но и характер.</p>
+            </div>
+        </div>
+        
+        <div class="original-block">
+            <img src="https://ltdfoto.ru/images/2025/05/12/STENA.jpg" alt="Преодоление">
+            <div class="motivation-text">
+                <h3>Преодоление страхов</h3>
+                <p>Самый запоминающийся момент - когда я впервые преодолела высоту 15 метров. Сердце бешено колотилось, но поддержка друзей помогла побороть страх. Теперь я знаю - наши возможности гораздо больше, чем мы думаем!</p>
+            </div>
+        </div>
+        
+        <div class="original-block">
+            <img src="https://ltdfoto.ru/images/2025/05/12/LYDI.jpg" alt="Сообщество">
+            <div class="motivation-text">
+                <h3>Люди, которые вдохновляют</h3>
+                <p>В скалолазании я встретила удивительных людей. Многие из них также случайно оказались в этом спорте. Они научили меня не сдаваться, доверять себе и находить радость в маленьких победах. Я уверена, что нашла "свою" группу, где поддерживают, а не критикуют. </p>
+            </div>
+        </div>
+        
+        <div class="story-ending">
+            <p>Приходите на скалодром - возможно, ваша история только начинается </p>
+        </div>
     </div>
 
     <script>
@@ -560,7 +643,36 @@
                             <li>Выходные: 16:00 – 23:30 — 750 ₽ | 650 ₽</li>
                             <li>Вход в оба зала — 1200 ₽ | 1100 ₽ (в один день)</li>
                         </ul>
-                        <p><strong>Примечание:</strong> Для лиц младше 16 лет требуется присутствие родителя или опекуна.</p>
+                        <p><strong>Примечание:</strong> Для лиц младше 16 лет требуется присутствие родителя/законного представителя.</p>
+                        <h3>Особые правила для юных скалолазов</h3>
+                        <ul>
+                            <li>Обязательное сопровождение взрослого</li>
+                            <li>Максимум 2 часа тренировки</li>
+                            <li>Только трассы с маркировкой "Дети"</li>
+                            <li>Обязательная страховка</li>
+                        </ul>
+
+                        <h3>Тренировка для подростков</h3>
+                            <h4>Разминка (10 мин)</h4>
+                            <ul>
+                                <li>Вращения суставами</li>
+                                <li>Прыжки на скакалке</li>
+                                <li>Растяжка</li>
+                            </ul>
+                            <h4>Основная часть</h4>
+                            <ul>
+                                <li>Подтягивания: 3 подхода по 3-5 раз</li>
+                                <li>Приседания: 2x15</li>
+                                <li>Висы на перекладине (30 сек)</li>
+                            </ul>
+
+                        <h3>Советы родителям</h3>
+                        <ul>
+                            <li>Первые 3 занятия - только с инструктором</li>
+                            <li>Контролируйте питьевой режим</li>
+                            <li>Оптимальная частота - 2 раза в неделю</li>
+                            <li>Выбирайте утренние часы для тренировок</li>
+                        </ul>
                     `;
                 }
             } else if (ageGroup === 'over16') {
@@ -579,6 +691,7 @@
                                 <li>10 индивидуальных на одного — 34200 ₽ | 30780 ₽ (с абонементом на вход — 24300 ₽ | 21780 ₽)</li>
                             </ul>
                             <p><strong>Для индивидуальных тренеровок с тренером - позвоните/напишите на скалодром и договоритесь с тренером о тренировке</p>
+                                
                         `;
                     } else {
                         // Для взрослых групповых занятий также покажем информацию о скалодроме и днях
@@ -634,6 +747,40 @@
                             <li>Выходные: 16:00 – 23:30 — 750 ₽ | 650 ₽</li>
                             <li>Вход в оба зала — 1200 ₽ | 1100 ₽ (в один день)</li>
                         </ul>
+                        <div class="additional-info">
+                                <div class="restrictions">
+                                    <h3>Важные ограничения</h3>
+                                    <ul>
+                                        <li>Вес более 110 кг:</strong> Ограничение на некоторые маршруты</li>
+                                        <li>Беременность:</strong> Требуется консультация врача</li>
+                                        <li>Проблемы с суставами:</strong> Избегайте динамичных движений</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="mini-workout">
+                                    <h3>Мини-тренировка перед посещением</h3>
+                                    <div class="exercises">
+                                        <div class="exercise">
+                                            <h4>Разминка (5 мин)</h4>
+                                            <p>Вращения суставами + легкая растяжка</p>
+                                        </div>
+                                        <div class="exercise">
+                                            <h4>Базовые упражнения</h4>
+                                            <ul>
+                                                <li>Подтягивания: 3 подхода по 5-8 раз</li>
+                                                <li>Планка: 3 подхода по 30 сек</li>
+                                                <li>Приседания: 3x15</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="nutrition-tip">
+                                <h3>Питание перед тренировкой</h3>
+                                <p>Легкий перекус за 1.5 часа: банан + орехи (30г) или тост с авокадо</p>
+                            </div>
+                        </div>
                     `;
                 }
             }
@@ -732,7 +879,7 @@
             document.getElementById('info').style.display = 'block';
         });
 
-        // Обработчик для кнопки "Эстет Мотивация"
+        // Обработчик для кнопки "Мотивация"
         document.getElementById('motivationButton').addEventListener('click', function () {
             resetSurvey();
             document.getElementById('motivationInfo').style.display = 'block';
